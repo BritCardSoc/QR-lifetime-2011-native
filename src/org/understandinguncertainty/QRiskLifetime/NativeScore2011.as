@@ -1,4 +1,4 @@
-package org.understandinguncertainty.qrl2011
+package org.understandinguncertainty.QRiskLifetime
 {
 	import flash.desktop.NativeProcess;
 	import flash.desktop.NativeProcessStartupInfo;
@@ -7,9 +7,10 @@ package org.understandinguncertainty.qrl2011
 	import flash.filesystem.File;
 	import flash.utils.IDataInput;
 	import flash.utils.IDataOutput;
-	import org.understandinguncertainty.qrl2011.vo.QResultVO;
+	
+	import org.understandinguncertainty.QRISKLifetime.vo.QResultVO;
 
-	public class NativeScore
+	public class NativeScore2011
 	{
 		public var outputData:String;
 		public var errorData:String;
@@ -44,7 +45,7 @@ package org.understandinguncertainty.qrl2011
 			
 			var callInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
 			var f:File = File.applicationDirectory.resolvePath("QRISK-lifetime-2011-opensource");
-			callInfo.workingDirectory = File.applicationDirectory.resolvePath("QRISK-lifetime-2011-opensource");
+			callInfo.workingDirectory = f; 
 			callInfo.executable = f.resolvePath("Q65_lifetime_model_40_"+b_gender+"_commandLine");
 			var args:Vector.<String> = new Vector.<String>;
 			args[0] = b_AF.toString();
@@ -81,7 +82,7 @@ package org.understandinguncertainty.qrl2011
 			errorData += process.standardError.readUTFBytes(process.standardError.bytesAvailable);
 		}
 		
-		public function readResult():QResultVO
+		public function get result():QResultVO
 		{
 			var rsa:Array = outputData.split(/\s*,\s*/);
 			var result:QResultVO = new QResultVO(rsa[0], rsa[1]);
