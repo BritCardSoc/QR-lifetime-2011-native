@@ -46,7 +46,7 @@ package org.understandinguncertainty.QRiskLifetime
 			var callInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
 			var f:File = File.applicationDirectory.resolvePath("QRISK-lifetime-2011-opensource");
 			callInfo.workingDirectory = f; 
-			callInfo.executable = f.resolvePath("Q65_lifetime_model_40_"+b_gender+"_commandLine");
+			callInfo.executable = f.resolvePath("lifetime"+b_gender);
 			var args:Vector.<String> = new Vector.<String>;
 			args[0] = b_AF.toString();
 			args[1] = b_ra.toString();
