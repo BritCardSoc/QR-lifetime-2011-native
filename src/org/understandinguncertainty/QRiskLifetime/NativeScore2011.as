@@ -2,6 +2,8 @@ package org.understandinguncertainty.QRiskLifetime
 {
 	import flash.desktop.NativeProcess;
 	import flash.desktop.NativeProcessStartupInfo;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.NativeProcessExitEvent;
 	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
@@ -10,7 +12,8 @@ package org.understandinguncertainty.QRiskLifetime
 	
 	import org.understandinguncertainty.QRISKLifetime.vo.QResultVO;
 
-	public class NativeScore2011
+	[Event(name="complete", type="flash.events.Event")]
+	public class NativeScore2011 extends EventDispatcher
 	{
 		public var outputData:String;
 		public var errorData:String;
@@ -67,10 +70,16 @@ package org.understandinguncertainty.QRiskLifetime
 			process = new NativeProcess();
 			process.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA, readStdout);
 			process.addEventListener(ProgressEvent.STANDARD_ERROR_DATA, readStderr);
+			process.addEventListener(NativeProcessExitEvent.EXIT, nativeDone);
 			process.start(callInfo);
 			return;
 
 		}
+		
+		private function nativeDone(event:NativeProcessExitEvent):void
+		{
+			dispatchEvent(new Event(Event.COMPLETE));	
+		}	
 		
 		private function readStdout(event:ProgressEvent):void
 		{
