@@ -10,6 +10,7 @@ package org.understandinguncertainty.QRiskLifetime
 	import flash.utils.IDataInput;
 	import flash.utils.IDataOutput;
 	
+	import org.understandinguncertainty.QRISKLifetime.vo.QParametersVO;
 	import org.understandinguncertainty.QRISKLifetime.vo.QResultVO;
 
 	[Event(name="complete", type="flash.events.Event")]
@@ -19,24 +20,9 @@ package org.understandinguncertainty.QRiskLifetime
 		public var errorData:String;
 		public var process:NativeProcess;
 		
-		public function calculateScore(
-			b_gender:int,			// 0..1
-			b_AF:int,			// 0..1
-			b_ra:int,			// 0..1
-			b_renal:int, 		// 0..1
-			b_treatedhyp:int, 	// 0..1 
-			b_type2:int,         // 0..1
-			bmi:Number,          // 20..40
-			ethrisk:int,         // 1..9
-			fh_cvd:int,          // 0..1
-			rati:Number,          // 1..12
-			sbp:Number,           // 70..210
-			smoke_cat:int,        //  0..4
-			town:Number,          // -7..11
-			age:int,              // ..95
-			noOfFollowupYears:int // <95-age
-		):void
+		public function calculateScore(q:QParametersVO):void
 		{
+			var p:QParametersVO = q.clone();
 			outputData = "";
 			
 			if(NativeProcess.isSupported) {
@@ -49,22 +35,22 @@ package org.understandinguncertainty.QRiskLifetime
 			var callInfo:NativeProcessStartupInfo = new NativeProcessStartupInfo();
 			var f:File = File.applicationDirectory.resolvePath("QRISK-lifetime-2011-opensource");
 			callInfo.workingDirectory = f; 
-			callInfo.executable = f.resolvePath("lifetime"+b_gender);
+			callInfo.executable = f.resolvePath("lifetime"+p.b_gender);
 			var args:Vector.<String> = new Vector.<String>;
-			args[0] = b_AF.toString();
-			args[1] = b_ra.toString();
-			args[2] = b_renal.toString();
-			args[3] = b_treatedhyp.toString();
-			args[4] = b_type2.toString();
-			args[5] = bmi.toString();
-			args[6] = ethrisk.toString();
-			args[7] = fh_cvd.toString();
-			args[8] = rati.toString();
-			args[9] = sbp.toString();
-			args[10] = smoke_cat.toString();
-			args[11] = town.toString();
-			args[12] = age.toString();
-			args[13] = noOfFollowupYears.toString();
+			args[0] = p.b_AF.toString();
+			args[1] = p.b_ra.toString();
+			args[2] = p.b_renal.toString();
+			args[3] = p.b_treatedhyp.toString();
+			args[4] = p.b_type2.toString();
+			args[5] = p.bmi.toString();
+			args[6] = p.ethRisk.toString();
+			args[7] = p.fh_cvd.toString();
+			args[8] = p.rati.toString();
+			args[9] = p.sbp.toString();
+			args[10] = p.smoke_cat.toString();
+			args[11] = p.town.toString();
+			args[12] = p.age.toString();
+			args[13] = p.noOfFollowUpYears.toString();
 			callInfo.arguments = args;
 			
 			process = new NativeProcess();
@@ -107,7 +93,7 @@ package org.understandinguncertainty.QRiskLifetime
 			process.removeEventListener(ProgressEvent.STANDARD_ERROR_DATA, readStderr);
 			return result;
 		}
-		
+/*		
 		public function getDummyScores(
 			b_AF:int,			// 0..1
 			b_ra:int,			// 0..1
@@ -130,6 +116,6 @@ package org.understandinguncertainty.QRiskLifetime
 			result[1] = 1;
 			return result;
 		}
-		
+*/		
 	}
 }
