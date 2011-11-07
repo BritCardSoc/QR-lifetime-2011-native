@@ -79,6 +79,7 @@ package org.understandinguncertainty.QRiskLifetime
 		
 		public function get result():QResultVO
 		{
+			if(outputData == null) return null;
 			var rsa:Array = outputData.split(/\s*,\s*/);
 			var result:QResultVO = new QResultVO(rsa[0], rsa[1]);
 			if(errorData != "") {
